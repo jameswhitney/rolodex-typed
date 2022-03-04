@@ -1,6 +1,7 @@
 import { Component } from "react";
 
 import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 import "./App.css";
 
 class App extends Component {
@@ -8,7 +9,7 @@ class App extends Component {
     super();
     this.state = {
       monsters: [],
-      searchString: "",
+      searchField: "",
     };
   }
 
@@ -26,27 +27,26 @@ class App extends Component {
   // Better practice than using anonymous function used in render
   // More functions used in render will affect performance
   onSearchChange = (event) => {
-    const searchString = event.target.value.toLocaleLowerCase();
+    const searchField = event.target.value.toLocaleLowerCase();
     this.setState(() => {
-      return { searchString };
+      return { searchField };
     });
   };
 
   render() {
     // Destructure state variables and class methods
     // to make code more readable imo
-    const { monsters, searchString } = this.state;
+    const { monsters, searchField } = this.state;
     const { onSearchChange } = this;
     const filteredMonsters = monsters.filter((monster) => {
-      return monster.name.toLocaleLowerCase().includes(searchString);
+      return monster.name.toLocaleLowerCase().includes(searchField);
     });
     return (
       <div className="App">
-        <input
+        <SearchBox
           className="search-box"
-          type="search"
+          onChangeHandler={onSearchChange}
           placeholder="search monsters"
-          onChange={onSearchChange}
         />
         <CardList monsters={filteredMonsters} />
       </div>
