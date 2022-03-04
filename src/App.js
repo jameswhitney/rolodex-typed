@@ -1,4 +1,6 @@
 import { Component } from "react";
+
+import CardList from "./components/card-list/card-list.component";
 import "./App.css";
 
 class App extends Component {
@@ -8,24 +10,16 @@ class App extends Component {
       monsters: [],
       searchString: "",
     };
-    // Logging used to show order in which lifecycles are run
-    console.log("constructor");
   }
 
   // Per React docs setState using a function that returns the new state object
   componentDidMount() {
-    // Logging used to show order in which lifecycles are run
-    console.log("componentDidMount");
     fetch(`https://jsonplaceholder.typicode.com/users`)
       .then((resp) => resp.json())
       .then((users) =>
-        this.setState(
-          () => {
-            return { monsters: users };
-          },
-          // Logging current state instead of previous state
-          () => console.log(this.state)
-        )
+        this.setState(() => {
+          return { monsters: users };
+        })
       );
   }
 
@@ -39,13 +33,11 @@ class App extends Component {
   };
 
   render() {
-    // Logging used to show order in which lifecycles are run
-    console.log("render");
     // Destructure state variables and class methods
     // to make code more readable imo
     const { monsters, searchString } = this.state;
     const { onSearchChange } = this;
-    const filterMonsters = monsters.filter((monster) => {
+    const filteredMonsters = monsters.filter((monster) => {
       return monster.name.toLocaleLowerCase().includes(searchString);
     });
     return (
@@ -56,16 +48,7 @@ class App extends Component {
           placeholder="search monsters"
           onChange={onSearchChange}
         />
-        {
-          // Map over monsters array to create list of h1 elements
-          filterMonsters.map((monster) => {
-            return (
-              <div key={monster.id}>
-                <h1>{monster.name}</h1>
-              </div>
-            );
-          })
-        }
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
