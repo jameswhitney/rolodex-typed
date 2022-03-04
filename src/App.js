@@ -29,12 +29,24 @@ class App extends Component {
       );
   }
 
+  // Better practice than using anonymous function used in render
+  // More functions used in render will affect performance
+  onSearchChange = (event) => {
+    const searchString = event.target.value.toLocaleLowerCase();
+    this.setState(() => {
+      return { searchString };
+    });
+  };
+
   render() {
     // Logging used to show order in which lifecycles are run
     console.log("render");
-
-    const filterMonsters = this.state.monsters.filter((monster) => {
-      return monster.name.toLocaleLowerCase().includes(this.state.searchString);
+    // Destructure state variables and class methods
+    // to make code more readable imo
+    const { monsters, searchString } = this.state;
+    const { onSearchChange } = this;
+    const filterMonsters = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchString);
     });
     return (
       <div className="App">
@@ -42,15 +54,7 @@ class App extends Component {
           className="search-box"
           type="search"
           placeholder="search monsters"
-          // This example of using an anonymous function is a bad practice
-          // Once it is run it is no longer in memory. So for each re-render
-          // the function must be created again and again, etc
-          onChange={(event) => {
-            const searchString = event.target.value.toLocaleLowerCase();
-            this.setState(() => {
-              return { searchString };
-            });
-          }}
+          onChange={onSearchChange}
         />
         {
           // Map over monsters array to create list of h1 elements
