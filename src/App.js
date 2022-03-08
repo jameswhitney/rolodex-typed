@@ -31,8 +31,8 @@ const App = () => {
 
   // Moved filter functionalitiy into useEffect
   // Added monsters state and searchField state
-  // to dependencies array so we only filter
-  // when either monsters array changes(it shouldn't in this app but it could)
+  // to dependencies array so we only re-render
+  // when either monsters array changes(it shouldn't change but could in the future)
   // or searchField string changes
   useEffect(() => {
     const newFilteredMonsters = monsters.filter((monster) => {
