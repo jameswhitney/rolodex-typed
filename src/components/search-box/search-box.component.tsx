@@ -9,9 +9,6 @@ type SearchBoxProps = {
 }
 
 const SearchBox = ({ className, placeholder, onChangeHandler }: SearchBoxProps) => (
-  // Using props to create a more
-  // generic search-box component
-  // which can be re-used elsewhere in application
   <input
     className={`search-box ${className}`}
     type="search"
