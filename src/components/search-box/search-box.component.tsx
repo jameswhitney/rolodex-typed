@@ -1,6 +1,14 @@
+import { ChangeEvent } from "react";
+
 import "./search-box.styles.css";
 
-const SearchBox = ({ className, placeholder, onChangeHandler }) => (
+type SearchBoxProps = {
+  className: string;
+  placeholder?: string;
+  onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchBox = ({ className, placeholder, onChangeHandler }: SearchBoxProps) => (
   // Using props to create a more
   // generic search-box component
   // which can be re-used elsewhere in application
